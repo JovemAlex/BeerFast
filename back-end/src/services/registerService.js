@@ -1,15 +1,15 @@
 const crypto = require('crypto');
 const { User } = require('../database/models');
+const { Op } = require('sequelize');
 const { createToken } = require('../auth/jwtFunctions');
 
 const findUser = async ({ name, email }) => {
   const [result] = await User.findAll({
     where: {
-      name,
-      email,
-    },
+      [Op.or]: [{name}, {email}]
+    }
   });
-  
+
   return result;
 };
 
@@ -22,7 +22,6 @@ const register = async (data) => {
   }
 
   const hashedPassword = crypto.createHash('md5').update(password).digest('hex');
-  console.log(hashedPassword);
 
   const result = await User.create({ name, email, password: hashedPassword, role });
   return createToken(result.email);
