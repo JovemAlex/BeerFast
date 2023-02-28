@@ -6,4 +6,4 @@ const verifyFields = (req, res, next) => {
   next();
 };
 
-module.exports = {verifyFields};
+module.exports = { verifyFields };
