@@ -1,5 +1,5 @@
-const { User } = require('../database/models');
 const md5 = require('md5');
+const { User } = require('../database/models');
 
 const register = async (data) => {
   const { name, email, password, role } = data;
