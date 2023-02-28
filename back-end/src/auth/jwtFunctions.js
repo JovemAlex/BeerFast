@@ -31,4 +31,3 @@ module.exports = {
   createToken,
   authenticateToken,
 };
-
