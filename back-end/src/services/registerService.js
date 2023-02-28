@@ -1,13 +1,13 @@
 const crypto = require('crypto');
-const { User } = require('../database/models');
 const { Op } = require('sequelize');
+const { User } = require('../database/models');
 const { createToken } = require('../auth/jwtFunctions');
 
 const findUser = async ({ name, email }) => {
   const [result] = await User.findAll({
     where: {
-      [Op.or]: [{name}, {email}]
-    }
+      [Op.or]: [{ name }, { email }],
+    },
   });
 
   return result;
