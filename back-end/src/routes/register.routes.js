@@ -4,6 +4,7 @@ const verifyFields = require('../middlewares/verifyFields');
 
 const register = Router();
 
-register.post('/', verifyFields, registerController.register);
+register.post('/', (req, res) => registerController.register(req, res));
+// verifyFields, registerController.register);
 
 module.exports = register;
