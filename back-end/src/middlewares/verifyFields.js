@@ -1,9 +1,18 @@
+const userSchema = require('./userSchema');
+
 const verifyFields = (req, res, next) => {
-  const { name, email, password/* , role */ } = req.body;
+  const { name, email, password } = req.body;
   if (!name || !email || !password) {
-    return res.status(406).send({ message: 'Os campos nome, email e senha são obrigatórios!' });
+    return res.status(406).send({ message: 'All fields are required!' });
   }
   next();
 };
 
-module.exports = { verifyFields };
+const verifyRegisterData = (req, res, next) => {
+  const data = req.body;
+  const { error } = userSchema.validate(data);
+  if (error !== undefined) return res.status(406).json({ message: error.details[0].message });
+  next();
+};
+
+module.exports = { verifyFields, verifyRegisterData };
