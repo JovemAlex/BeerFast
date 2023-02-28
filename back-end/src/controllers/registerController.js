@@ -9,7 +9,7 @@ const register = async (req, res, next) => {
   
     return res.status(201).json({ token: result });
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 
