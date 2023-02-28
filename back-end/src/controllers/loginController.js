@@ -13,7 +13,6 @@ const login = async (req, res, next) => {
 
     return res.status(200).json({ token: auth });
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };
