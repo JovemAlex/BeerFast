@@ -4,7 +4,12 @@ const { User } = require('../database/models');
 const register = async (data) => {
   const { name, email, password, role } = data;
   const hashedPassword = md5(password);
-  const user = await User.create({ name, email, password: hashedPassword, role });
+  const result = await User.create({ name, email, password: hashedPassword, role });
+  const user = {
+    name: result.name,
+    email: result.email,
+    role: result.role
+  }
   return user;
 };
 
