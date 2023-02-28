@@ -8,8 +8,8 @@ const register = async (data) => {
   const user = {
     name: result.name,
     email: result.email,
-    role: result.role
-  }
+    role: result.role,
+  };
   return user;
 };
 
