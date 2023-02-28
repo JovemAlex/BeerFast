@@ -1,5 +1,5 @@
 const express = require('express');
-import registerRoutes from '../routes/register.routes'
+const registerRoutes = require('../routes/register.routes')
 
 const app = express();
 app.use(express.json());
