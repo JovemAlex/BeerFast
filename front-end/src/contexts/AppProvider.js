@@ -5,13 +5,16 @@ import AppContext from './AppContext';
 function AppProvider({ children }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
 
   const contextApp = useMemo(() => ({
     email,
     setEmail,
     password,
     setPassword,
-  }), [email, password, setEmail, setPassword]);
+    name,
+    setName,
+  }), [email, password, setEmail, setPassword, name, setName]);
 
   return (
     <AppContext.Provider value={ contextApp }>
