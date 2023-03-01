@@ -3,13 +3,10 @@ const Joi = require('joi');
 const userSchema = Joi.object({
   name: Joi.string()
         .min(12)
-        .max(100)
         .required(),
 
   password: Joi.string()
-        .alphanum()
         .min(6)
-        .max(30)
         .required(),
 
   email: Joi.string()

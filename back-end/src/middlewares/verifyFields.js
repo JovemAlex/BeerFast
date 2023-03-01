@@ -1,4 +1,4 @@
-const userSchema = require('./userSchema');
+const userSchema = require('../utils/userSchema');
 
 const verifyFields = (req, res, next) => {
   const { name, email, password } = req.body;
