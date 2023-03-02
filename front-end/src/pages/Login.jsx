@@ -26,9 +26,10 @@ export default function Login() {
 
   const loginPost = async () => {
     try {
-      const { data } = await axios.post('http://localhost:3000/login', { email, password });
+      const { data } = await axios.post('http://localhost:3001/login', { email, password });
       setUser(data);
       localStorage.setItem('user', JSON.stringify(user));
+      history.push('/customer/products');
     } catch (err) {
       setError(true);
     }
