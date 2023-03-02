@@ -52,7 +52,6 @@ const updateStatusEmTransito = async (req, res, next) => {
   }
 };
 
-
 // const getOrdersByIdBySeller = async (req, res, next) => {
 //   const email = req.user;
 //   try {
@@ -70,4 +69,3 @@ module.exports = {
   updateStatusEmTransito,
   getAllOrdersBySeller,
 };
-
