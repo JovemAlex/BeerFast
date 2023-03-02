@@ -14,3 +14,5 @@ const getSaleById = async (req, res, next) => {
 module.exports = { 
     getSaleById,
 };
+
+// teste
