@@ -32,4 +32,4 @@ const getAllOrdersBySeller = async (req, res, next) => {
 //   }
 // };
 
-module.exports = { getOrderById, getAllOrdersBySeller, getOrdersByIdBySeller };
+module.exports = { getOrderById, getAllOrdersBySeller };
