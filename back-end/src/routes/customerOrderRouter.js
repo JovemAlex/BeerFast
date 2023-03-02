@@ -1,12 +1,13 @@
 const express = require('express');
 
+const verifyToken = require('../middlewares/verifyToken');
 const { authenticateToken } = require('../auth/jwtFunctions');
 const customerOrderController = require('../controllers/customerOrderController');
 
 const route = express.Router();
 
-route.get('/:id', customerOrderController.getSaleById);
-route.put('/:id/status/entregue', customerOrderController.updateStatusEntregue);
+route.get('/:id', verifyToken, customerOrderController.getSaleById);
+route.put('/:id/status/entregue', verifyToken, customerOrderController.updateStatusEntregue);
 
 route.use(authenticateToken);
 
