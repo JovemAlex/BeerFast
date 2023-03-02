@@ -31,6 +31,10 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
+sequelize.options.logging = (sql) => {
+  console.log(sql);
+}
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
