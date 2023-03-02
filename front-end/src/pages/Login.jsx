@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
 import AppContext from '../contexts/AppContext';
 
 export default function Login() {
@@ -12,7 +11,6 @@ export default function Login() {
     password,
     setPassword,
   } = useContext(AppContext);
-  const history = useHistory();
 
   const validateEmailAndPassword = () => {
     const isEmailValid = (email.includes('@')
@@ -39,11 +37,6 @@ export default function Login() {
     event.preventDefault();
 
     loginPost();
-  };
-
-  const handleClickRegister = (event) => {
-    event.preventDefault();
-    history.push('/register');
   };
 
   return (
@@ -77,7 +70,6 @@ export default function Login() {
       <button
         type="button"
         data-testid="common_login__button-register"
-        onClick={ handleClickRegister }
       >
         Ainda não tenho conta
 
