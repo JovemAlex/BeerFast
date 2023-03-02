@@ -2,7 +2,7 @@ const { Sale, SaleProduct, Product } = require('../database/models');
 const registerService = require('./registerService');
 
 const getOrderById = async (id, email) => {
-  const user = await registerService.findUser({ name: null, email }); //verificar se a query retorna o esperado
+  const user = await registerService.findUser({ name: null, email }); // verificar se a query retorna o esperado
   const order = await Sale.findOne({
     where: { sellerId: user.id, id },
     include: [{
@@ -21,7 +21,7 @@ const getOrderById = async (id, email) => {
 };
 
 const getAllOrdersBySeller = async (email) => {
-  const { id } = await registerService.findUser({ name: null, email }); //verificar se a query retorna o esperado
+  const { id } = await registerService.findUser({ name: null, email }); // verificar se a query retorna o esperado
   const allOrders = await Sale.findAll({
     where: { sellerId: id },
   });
