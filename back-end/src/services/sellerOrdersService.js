@@ -20,6 +20,14 @@ const getOrderById = async (id, email) => {
   return order;
 };
 
+const updateStatus = async (id, newStatus) => {
+  await Sale.update(
+    { status: newStatus },
+    { where: { id } },
+  );
+  return getOrderById(id);
+};
+
 const getAllOrdersBySeller = async (email) => {
   const { id } = await registerService.findUser({ name: null, email }); // verificar se a query retorna o esperado
   const allOrders = await Sale.findAll({
@@ -28,4 +36,4 @@ const getAllOrdersBySeller = async (email) => {
   return allOrders;
 };
 
-module.exports = { getOrderById, getAllOrdersBySeller };
+module.exports = { getOrderById, updateStatus, getAllOrdersBySeller };

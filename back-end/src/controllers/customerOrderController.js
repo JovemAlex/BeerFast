@@ -11,8 +11,17 @@ const getSaleById = async (req, res, next) => {
     }
 };
 
-module.exports = { 
-    getSaleById,
+const updateStatusEntregue = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const updated = await customerOrderService.updateStatus(id, 'entregue');
+    return res.status(200).json(updated);
+  } catch (err) {
+    next(err);
+  }
 };
 
-// teste
+module.exports = { 
+    getSaleById,
+    updateStatusEntregue,
+};

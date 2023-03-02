@@ -22,6 +22,36 @@ const getAllOrdersBySeller = async (req, res, next) => {
   }
 };
 
+const updateStatusPendente = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const updated = await sellerOrdersService.updateStatus(id, 'pendente');
+    return res.status(200).json(updated);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const updateStatusPreparando = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const updated = await sellerOrdersService.updateStatus(id, 'preparando');
+    return res.status(200).json(updated);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const updateStatusEmTransito = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const updated = await sellerOrdersService.updateStatus(id, 'em_transito');
+    return res.status(200).json(updated);
+  } catch (err) {
+    next(err);
+  }
+};
+
 // const getOrdersByIdBySeller = async (req, res, next) => {
 //   const email = req.user;
 //   try {
@@ -32,4 +62,10 @@ const getAllOrdersBySeller = async (req, res, next) => {
 //   }
 // };
 
-module.exports = { getOrderById, getAllOrdersBySeller };
+module.exports = { 
+  getOrderById, 
+  updateStatusPendente, 
+  updateStatusPreparando, 
+  updateStatusEmTransito,
+  getAllOrdersBySeller,
+};
