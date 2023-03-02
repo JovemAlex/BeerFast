@@ -8,4 +8,6 @@ sellerOrdersRouter.put('/:id/status/pendente', sellerOrdersController.updateStat
 sellerOrdersRouter.put('/:id/status/preparando', sellerOrdersController.updateStatusPreparando);
 sellerOrdersRouter.put('/:id/status/em-transito', sellerOrdersController.updateStatusEmTransito);
 
+sellerOrdersRouter.get('/', sellerOrdersController.getAllOrdersBySeller);
+
 module.exports = sellerOrdersRouter;
