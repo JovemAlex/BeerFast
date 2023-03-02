@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 import AppContext from '../contexts/AppContext';
 
 export default function Login() {
-  const [disabled, setDisabled] = useState(true);
+  // const [disabled, setDisabled] = useState(true);
   const [error, setError] = useState(false);
   const [user, setUser] = useState('');
   const { email,
@@ -11,15 +12,17 @@ export default function Login() {
     password,
     setPassword,
   } = useContext(AppContext);
+  const history = useHistory();
 
-  const validate = () => {
-    const max = 6;
-    if (/\S+@\S+\.\S+/.test(email) && password.length >= max) {
-      return setDisabled(false);
-    }
-    setError(false);
-    return setDisabled(true);
+  const validateEmailAndPassword = () => {
+    const isEmailValid = (email.includes('@')
+        && (email.toLowerCase().includes('.com')));
+    const lengthPassword = 6;
+    const isPasswordValid = (password.length >= lengthPassword);
+    return isEmailValid && isPasswordValid;
   };
+
+  const idDisabled = validateEmailAndPassword();
 
   const loginPost = async () => {
     try {
@@ -37,6 +40,11 @@ export default function Login() {
     loginPost();
   };
 
+  const handleClickRegister = (event) => {
+    event.preventDefault();
+    history.push('/register');
+  };
+
   return (
     <form>
       <div>
@@ -45,7 +53,7 @@ export default function Login() {
           type="email"
           data-testid="common_login__input-email"
           placeholder="type your email"
-          onChange={ ({ target }) => { setEmail(target.value); validate(); } }
+          onChange={ ({ target: { value: nameEmail } }) => setEmail(nameEmail) }
           value={ email }
         />
       </div>
@@ -53,13 +61,13 @@ export default function Login() {
         type="password"
         data-testid="common_login__input-password"
         placeholder="type your password"
-        onChange={ ({ target }) => { setPassword(target.value); validate(); } }
+        onChange={ ({ target: { value: namePassword } }) => setPassword(namePassword) }
         value={ password }
       />
       <button
         type="button"
         data-testid="common_login__button-login"
-        disabled={ disabled }
+        disabled={ !idDisabled }
         onClick={ handleClick }
       >
         LOGIN
@@ -68,6 +76,7 @@ export default function Login() {
       <button
         type="button"
         data-testid="common_login__button-register"
+        onClick={ handleClickRegister }
       >
         Ainda não tenho conta
 
