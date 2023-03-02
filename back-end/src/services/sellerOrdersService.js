@@ -18,11 +18,11 @@ const getOrderById = async (id) => {
 };
 
 const updateStatus = async (id, newStatus) => {
-  const updated = await Sale.update(
+  await Sale.update(
     { status: newStatus },
     { where: { id } },
   );
-  return await getOrderById(id);
+  return getOrderById(id);
 };
 
 module.exports = { getOrderById, updateStatus };

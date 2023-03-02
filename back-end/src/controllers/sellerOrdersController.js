@@ -40,4 +40,9 @@ const updateStatusEmTransito = async (req, res, next) => {
   }
 };
 
-module.exports = { getOrderById, updateStatusPendente, updateStatusPreparando, updateStatusEmTransito };
+module.exports = { 
+  getOrderById, 
+  updateStatusPendente, 
+  updateStatusPreparando, 
+  updateStatusEmTransito, 
+};
