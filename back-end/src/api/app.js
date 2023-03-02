@@ -28,7 +28,7 @@ app.use(cors());
 app.use('/images', express.static(`${__dirname}/images`));
 app.get('/coffee', (_req, res) => res.status(418).end());
 app.use('/login', loginRouter);
-app.use('/products', productRouter);
+app.use('/customer/products', productRouter);
 app.use('/register', registerRoutes);
 app.use('/customer/orders', customerOrderRouter);
 app.use('/seller/orders', sellerOrdersRouter);
