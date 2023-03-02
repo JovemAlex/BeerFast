@@ -7,28 +7,28 @@ const sellerOrdersRouter = express.Router();
 sellerOrdersRouter.put(
   '/:id/status/pendente',
   verifyToken,
-  sellerOrdersController.updateStatusPendente
+  sellerOrdersController.updateStatusPendente,
   );
 sellerOrdersRouter.put(
   '/:id/status/preparando',
   verifyToken,
-  sellerOrdersController.updateStatusPreparando
+  sellerOrdersController.updateStatusPreparando,
   );
 sellerOrdersRouter.put(
   '/:id/status/em-transito',
   verifyToken,
-  sellerOrdersController.updateStatusEmTransito
+  sellerOrdersController.updateStatusEmTransito,
   );
 sellerOrdersRouter.get(
   '/:id',
   verifyToken,
-  sellerOrdersController.getOrderById
+  sellerOrdersController.getOrderById,
   );
 
 sellerOrdersRouter.get(
   '/',
   verifyToken,
-  sellerOrdersController.getAllOrdersBySeller
+  sellerOrdersController.getAllOrdersBySeller,
   );
 
 module.exports = sellerOrdersRouter;
