@@ -23,8 +23,8 @@ const register = async (data) => {
 
   const hashedPassword = crypto.createHash('md5').update(password).digest('hex');
 
-  const result = await User.create({ name, email, password: hashedPassword, role });
-  return createToken(result.email);
+  const { dataValues } = await User.create({ name, email, password: hashedPassword, role });
+  return createToken(dataValues.email);
 };
 
 module.exports = { register, findUser };
