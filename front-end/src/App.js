@@ -6,7 +6,6 @@ import Register from './pages/Register';
 import Orders from './pages/Orders';
 import Products from './pages/Products';
 
-
 function App() {
   return (
     <AppProvider>
