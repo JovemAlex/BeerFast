@@ -12,7 +12,7 @@ function App() {
         <Route exact path="/login" component={ Login } />
         <Route exact path="/register" component={ Register } />
         <Route exact path="/" render={ () => <Redirect to="/login" /> } />
-        <Route exact path="/customer/checkout" component={ <Checkout /> } />
+        <Route exact path="/customer/checkout" component={ Checkout } />
       </Switch>
     </AppProvider>
   );

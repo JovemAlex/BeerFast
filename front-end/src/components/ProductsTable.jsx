@@ -27,16 +27,25 @@ function ProductsTable() {
           <tr key={ index }>
             <td data-testid={ `${ROUTE}__${ITEMELEMENT}-${index}` }>{index + 1}</td>
             <td data-testid={ `${ROUTE}__${NAMEELEMENT}-${index}` }>{product.name}</td>
-            <td data-testid={ `${ROUTE}__${QUANTITYELEMENT}-${index}` }>
+            <td data-testid={ `${ROUTE}__${QUANTITYELEMENT}-${product.quantity}` }>
               {product.quantity}
             </td>
             <td data-testid={ `${ROUTE}__${UNITPRICEELEMENT}-${index}` }>
-              {product.price}
+              {Number(product.price).replace('.', ',')}
+              {/* price no banco de dados é . e no site é , */}
             </td>
             <td data-testid={ `${ROUTE}__${SUBTOTALELEMENT}-${index}` }>
-              {product.unitprice}
+              {Number(product.quantity * product.price).toFixed(2).replace('.', ',')}
             </td>
-            <td data-testid={ `${ROUTE}__${REMOVEELEMENT}-${index}` }>remove</td>
+            <td>
+              <button
+                data-testid={ `${ROUTE}__${REMOVEELEMENT}-${index}` }
+                type="button"
+                onClick={ (e) => removeItem(e.target.id) }
+              >
+                Remover
+              </button>
+            </td>
           </tr>
         ))}
       </tbody>
