@@ -11,7 +11,7 @@ const login = async (req, res, next) => {
 
     req.user = auth;
 
-    return res.status(200).json({ token: auth });
+    return res.status(200).json({ token: auth.token, role: auth.role });
   } catch (err) {
     next(err);
   }
