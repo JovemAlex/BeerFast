@@ -12,8 +12,7 @@ const getOrderById = async (req, res, next) => {
 };
 
 const getAllOrdersBySeller = async (req, res, next) => {
-  // pegar authrozation, transformar no email e buscar o email no banco pra pegar o id, passar o id como where da query
-  const email = req.user;
+  const { email } = req.user;
   try {
     const allOrders = await sellerOrdersService.getAllOrdersBySeller(email);
     return res.status(200).json(allOrders);
@@ -51,16 +50,6 @@ const updateStatusEmTransito = async (req, res, next) => {
     next(err);
   }
 };
-
-// const getOrdersByIdBySeller = async (req, res, next) => {
-//   const email = req.user;
-//   try {
-//     const allOrders = await sellerOrdersService.getAllOrdersBySeller(email);
-//     return res.status(200).json(allOrders);
-//   } catch (err) {
-//     next(err);
-//   }
-// };
 
 module.exports = { 
   getOrderById, 
