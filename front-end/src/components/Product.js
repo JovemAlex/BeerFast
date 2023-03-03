@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { PropTypes } from 'prop-types';
 import AppContext from '../contexts/AppContext';
 
 export default function Product({ product }) {
@@ -74,8 +75,8 @@ export default function Product({ product }) {
 Product.propTypes = {
   product: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    price: PropTypes.number.isRequired,
-    url_image: PropTypes.image.isRequired,
+    price: PropTypes.string.isRequired,
+    url_image: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
   }).isRequired,
 };

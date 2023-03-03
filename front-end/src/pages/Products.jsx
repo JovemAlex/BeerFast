@@ -34,7 +34,10 @@ function Products() {
         Ver Carrinho:
         <span data-testid="customer_products__checkout-bottom-value">
           {total
-            .toLocaleString('pt-BR')}
+            .toLocaleString(
+              'pt-BR',
+              { maximumFractionDigits: 2, minimumFractionDigits: 2 },
+            )}
         </span>
       </button>
     </main>
