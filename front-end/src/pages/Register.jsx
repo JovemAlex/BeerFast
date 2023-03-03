@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 import AppContext from '../contexts/AppContext';
 
-export default function Login() {
-  const [disabled, setDisabled] = useState(true);
+export default function Register() {
+  // const [disabled, setDisabled] = useState(true);
   const [error, setError] = useState(false);
   const [user, setUser] = useState('');
   const { email,
@@ -13,22 +14,32 @@ export default function Login() {
     name,
     setName,
   } = useContext(AppContext);
+  const history = useHistory();
 
-  const validate = () => {
-    const max = 6;
-    const min = 12;
-    if (/\S+@\S+\.\S+/.test(email) && password.length >= max && name.length < min) {
-      return setDisabled(false);
-    }
-    setError(false);
-    return setDisabled(true);
+  const validateEmailAndPassword = () => {
+    const isEmailValid = (email.includes('@')
+        && (email.toLowerCase().includes('.com')));
+
+    const lengthPassword = 6;
+    const isPasswordValid = (password.length >= lengthPassword);
+
+    const lengthName = 12;
+    const isNameValid = (name.length >= lengthName);
+
+    return isEmailValid && isPasswordValid && isNameValid;
   };
 
-  const validateUser = async () => {
+  const idDisabled = validateEmailAndPassword();
+
+  const validateUser = async (event) => {
+    event.preventDefault();
     try {
-      const { data } = await axios.post('http://localhost:3001/register', { name, email, password, role: 'costumer' });
-      setUser({ ...data, role: 'costumer' });
+      const dataToSend = { name, email, password };
+      const { data } = await axios.post('http://localhost:3001/register', dataToSend);
       console.log(user);
+      setUser({ ...data, role: 'costumer' });
+      console.log(data);
+      history.push('/customer/products');
     } catch (err) {
       console.log(err);
       setError(true);
@@ -42,7 +53,7 @@ export default function Login() {
         type="name"
         data-testid="common_register__input-name"
         placeholder="Seu nome"
-        onChange={ ({ target }) => { setName(target.value); validate(); } }
+        onChange={ ({ target: { value: nameUser } }) => setName(nameUser) }
         value={ name }
       />
       <h2>Email:</h2>
@@ -50,21 +61,21 @@ export default function Login() {
         type="email"
         data-testid="common_register__input-email"
         placeholder="seu-email@site.com.br"
-        onChange={ ({ target }) => { setEmail(target.value); validate(); } }
+        onChange={ ({ target: { value: nameEmail } }) => setEmail(nameEmail) }
         value={ email }
       />
       <h2>Senha:</h2>
       <input
         type="password"
         data-testid="common_register__input-password"
-        onChange={ ({ target }) => { setPassword(target.value); validate(); } }
+        onChange={ ({ target: { value: namePassword } }) => setPassword(namePassword) }
         value={ password }
       />
 
       <button
         type="button"
         data-testid="common_register__button-register"
-        disabled={ disabled }
+        disabled={ !idDisabled }
         onClick={ validateUser }
       >
         CADASTRAR
