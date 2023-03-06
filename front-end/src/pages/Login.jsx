@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import AppContext from '../contexts/AppContext';
@@ -29,6 +29,18 @@ export default function Login() {
     const redirectTo = role === 'customer' ? 'customer/products' : 'seller/orders';
     return redirectTo;
   };
+
+  useEffect(() => {
+    const verifyLogin = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        const { role } = await axios.get('http://localhost:3001/login', { headers: { Authorization: token } });
+        const path = newPath(role);
+        history.push(path);
+      }
+    };
+    verifyLogin();
+  }, [history]);
 
   const loginPost = async () => {
     try {
