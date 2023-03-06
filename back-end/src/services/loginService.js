@@ -14,6 +14,14 @@ const authenticateToken = async ({ email, password }) => {
   return { token, role: user.role };
 };
 
+const getUser = async (email) => {
+  const { role } = await User.findOne({
+    where: { email },
+  });
+  return role;
+};
+
 module.exports = {
   authenticateToken,
+  getUser,
 };

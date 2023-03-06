@@ -17,6 +17,18 @@ const login = async (req, res, next) => {
   }
 };
 
+const getUser = async (req, res, next) => {
+  try {
+    const email = req.user;
+    const role = await loginService.getUser(email);
+
+    return res.status(200).json({ role });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   login,
+  getUser,
 };
