@@ -6,7 +6,7 @@ import AppContext from '../contexts/AppContext';
 export default function Login() {
   // const [disabled, setDisabled] = useState(true);
   const [error, setError] = useState(false);
-  const [user, setUser] = useState('');
+  // const [user, setUser] = useState('');
   const { email,
     setEmail,
     password,
@@ -24,12 +24,21 @@ export default function Login() {
 
   const idDisabled = validateEmailAndPassword();
 
+  const newPath = (role) => {
+    const redirectTo = role === 'customer' ? 'customer/products' : 'seller/orders';
+    return redirectTo;
+  };
+
   const loginPost = async () => {
     try {
       const { data } = await axios.post('http://localhost:3001/login', { email, password });
-      setUser(data);
-      localStorage.setItem('user', JSON.stringify(user));
-      history.push('/customer/products');
+      const { token, role } = data;
+      console.log('token:', token, ', role: ', role);
+      // setUser(token);
+      localStorage.setItem('token', JSON.stringify(token));
+      console.log(localStorage.getItem('token'));
+      const path = newPath(role);
+      history.push(path);
     } catch (err) {
       setError(true);
     }

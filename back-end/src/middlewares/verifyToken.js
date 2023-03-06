@@ -1,4 +1,4 @@
-const authenticateToken = require('../auth/jwtFunctions');
+const { authenticateToken } = require('../auth/jwtFunctions');
 
 const verifyToken = async (req, res, next) => {
 const { authorization } = req.headers;
@@ -8,11 +8,12 @@ if (!authorization) {
 }
 
 try {
-  const { email } = authenticateToken(authorization);
-  req.user = { ...email };
-
+  const email = authenticateToken(authorization);
+  req.user = email;
+  
   next();
-  } catch (err) {
+} catch (err) {
+    console.log(err);
     return res.status(401).json({ message: 'Invalid token' });
   }
 };
