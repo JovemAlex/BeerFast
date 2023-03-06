@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import AppContext from './AppContext';
 
@@ -9,14 +9,14 @@ function AppProvider({ children }) {
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [total, setTotal] = useState(0);
 
-  const calculateTotal = () => selectedProducts
-    .reduce((acc, cur) => acc + Number(cur.price) * cur.quantity, 0);
+  const calculateTotal = useCallback(() => selectedProducts
+    .reduce((acc, cur) => acc + Number(cur.price) * cur.quantity, 0), [selectedProducts]);
 
   useEffect(() => {
     setTotal(calculateTotal());
-  }, [selectedProducts]);
+  }, [selectedProducts, calculateTotal]);
 
-  const setProduct = (product, quantity) => {
+  const setProduct = useCallback((product, quantity) => {
     const existingProduct = selectedProducts.find((item) => item.id === product.id);
 
     if (existingProduct) {
@@ -32,9 +32,9 @@ function AppProvider({ children }) {
       setSelectedProducts([...selectedProducts, { ...product, quantity }]);
     }
     setTotal(calculateTotal());
-  };
+  }, [calculateTotal, selectedProducts]);
 
-  const addProduct = (product) => {
+  const addProduct = useCallback((product) => {
     const existingProduct = selectedProducts.find((item) => item.id === product.id);
 
     if (existingProduct) {
@@ -50,9 +50,9 @@ function AppProvider({ children }) {
       setSelectedProducts([...selectedProducts, { ...product, quantity: 1 }]);
     }
     setTotal(calculateTotal());
-  };
+  }, [calculateTotal, selectedProducts]);
 
-  const removeProduct = (product) => {
+  const removeProduct = useCallback((product) => {
     const existingProduct = selectedProducts.find((item) => item.id === product.id);
 
     if (existingProduct) {
@@ -68,7 +68,7 @@ function AppProvider({ children }) {
       setSelectedProducts([...selectedProducts, { ...product, quantity: 1 }]);
     }
     setTotal(calculateTotal());
-  };
+  }, [calculateTotal, selectedProducts]);
 
   const contextApp = useMemo(() => ({
     email,
@@ -82,7 +82,19 @@ function AppProvider({ children }) {
     addProduct,
     removeProduct,
     setProduct,
-  }), [email, password, setEmail, setPassword, name, setName, total]);
+  }), [
+    email,
+    password,
+    setEmail,
+    setPassword,
+    name,
+    setName,
+    selectedProducts,
+    total,
+    addProduct,
+    removeProduct,
+    setProduct,
+  ]);
 
   return (
     <AppContext.Provider value={ contextApp }>
