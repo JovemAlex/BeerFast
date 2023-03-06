@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import AppContext from '../contexts/AppContext';
@@ -11,6 +11,7 @@ export default function Login() {
     setEmail,
     password,
     setPassword,
+    setName,
   } = useContext(AppContext);
   const history = useHistory();
 
@@ -24,11 +25,18 @@ export default function Login() {
 
   const idDisabled = validateEmailAndPassword();
 
+  useEffect(() => {
+    if (user !== '') {
+      localStorage.setItem('user', JSON.stringify(user));
+      setName(user.name);
+    }
+  }, [user]);
+
   const loginPost = async () => {
     try {
       const { data } = await axios.post('http://localhost:3001/login', { email, password });
       setUser(data);
-      localStorage.setItem('user', JSON.stringify(user));
+
       history.push('/customer/products');
     } catch (err) {
       setError(true);

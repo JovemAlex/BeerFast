@@ -13,6 +13,15 @@ function AppProvider({ children }) {
     .reduce((acc, cur) => acc + Number(cur.price) * cur.quantity, 0);
 
   useEffect(() => {
+    const userFromStorage = localStorage.getItem('user');
+    if (userFromStorage !== null && userFromStorage !== '') {
+      const result = JSON.parse(userFromStorage);
+      setName(result.name);
+      setEmail(result.email);
+    }
+  }, []);
+
+  useEffect(() => {
     setTotal(calculateTotal());
   }, [selectedProducts]);
 

@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import './css/Navbar.css';
+import AppContext from '../contexts/AppContext';
 
 function Navbar() {
+  const { name } = useContext(AppContext);
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+  };
+
   return (
     <nav className="navbar">
       <div>
@@ -30,7 +37,7 @@ function Navbar() {
             to="/customer/products"
             className="user"
           >
-            NOME DO USUÁRIO
+            {name}
           </Link>
         </div>
 
@@ -39,6 +46,7 @@ function Navbar() {
             data-testid="customer_products__element-navbar-link-logout"
             to="/"
             className="logout"
+            onClick={ handleLogout }
           >
             SAIR
           </Link>
