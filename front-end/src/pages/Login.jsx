@@ -11,6 +11,7 @@ export default function Login() {
     setEmail,
     password,
     setPassword,
+    setRole,
   } = useContext(AppContext);
   const history = useHistory();
 
@@ -33,10 +34,8 @@ export default function Login() {
     try {
       const { data } = await axios.post('http://localhost:3001/login', { email, password });
       const { token, role } = data;
-      console.log('token:', token, ', role: ', role);
-      // setUser(token);
+      setRole(role);
       localStorage.setItem('token', JSON.stringify(token));
-      console.log(localStorage.getItem('token'));
       const path = newPath(role);
       history.push(path);
     } catch (err) {
