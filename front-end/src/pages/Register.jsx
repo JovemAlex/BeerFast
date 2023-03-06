@@ -6,13 +6,14 @@ import AppContext from '../contexts/AppContext';
 export default function Register() {
   // const [disabled, setDisabled] = useState(true);
   const [error, setError] = useState(false);
-  const [user, setUser] = useState('');
+  const [/* user,  */setUser] = useState('');
   const { email,
     setEmail,
     password,
     setPassword,
     name,
     setName,
+    setRole,
   } = useContext(AppContext);
   const history = useHistory();
 
@@ -36,9 +37,8 @@ export default function Register() {
     try {
       const dataToSend = { name, email, password };
       const { data } = await axios.post('http://localhost:3001/register', dataToSend);
-      console.log(user);
       setUser({ ...data, role: 'costumer' });
-      console.log(data);
+      setRole('customer');
       history.push('/customer/products');
     } catch (err) {
       console.log(err);
