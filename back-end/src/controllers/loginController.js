@@ -16,7 +16,7 @@ const login = async (req, res, next) => {
     //   where: {email:req.body.email}
     // })
 
-    return res.status(200).json({ auth });
+    return res.status(200).json({ ...auth });
     // return res.status(200).json({ token: auth.token, role: auth.role });
   } catch (err) {
     next(err);
