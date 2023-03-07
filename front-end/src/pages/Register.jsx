@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState /* useEffect */ } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import AppContext from '../contexts/AppContext';
@@ -6,7 +6,7 @@ import AppContext from '../contexts/AppContext';
 export default function Register() {
   // const [disabled, setDisabled] = useState(true);
   const [error, setError] = useState(false);
-  const [user, setUser] = useState('');
+  // const [user, setUser] = useState('');
   const { email,
     setEmail,
     password,
@@ -36,9 +36,7 @@ export default function Register() {
     try {
       const dataToSend = { name, email, password };
       const { data } = await axios.post('http://localhost:3001/register', dataToSend);
-      console.log(user);
-      setUser({ ...data, role: 'costumer' });
-      console.log(data);
+      localStorage.setItem('user', JSON.stringify(data));
       history.push('/customer/products');
     } catch (err) {
       console.log(err);
