@@ -1,9 +1,9 @@
-const { Sale } = require('../database/models');
+const sequelize = require('sequelize');
+const { Sale, SaleProduct, User } = require('../database/models');
 
 const getById = async (id) => {
-    const sale = await Sale.findByPk(id); // ou todos pelo userId ????
-    
-    return sale;
+  const sale = await Sale.findByPk(id);
+  return sale;
 };
 
 const updateStatus = async (id, newStatus) => {
@@ -14,7 +14,40 @@ const updateStatus = async (id, newStatus) => {
   return getById(id);
 };
 
-module.exports = { 
-    getById,
-    updateStatus,
+const create = async (sale, products) => {
+  const result = await sequelize.Transaction(async (t) => {
+    const newSale = {
+      ...sale,
+      saleDate: Date(),
+      status: 'Pendente',
+    };
+
+    const { id: saleId } = await Sale.create(newSale, { transaction: t });
+
+    await Promise.all(products.map(({ productId, quantity }) => SaleProduct.create(
+      { saleId, productId, quantity },
+      { transaction: t },
+    )));
+
+    return saleId;
+  });
+  return result;
+};
+
+const getSellers = async () => {
+  const [sellers] = await User.findAll(
+    {
+      where: {
+        role: 'seller',
+      }
+    },
+  );
+  console.log(sellers);
+  return sellers;
+};
+
+module.exports = {
+  updateStatus,
+  create,
+  getSellers,
 };

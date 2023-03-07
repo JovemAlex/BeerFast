@@ -1,14 +1,32 @@
 const customerOrderService = require('../services/customerOrderService');
+const sellerOrdersService = require('../services/sellerOrdersService');
 
-const getSaleById = async (req, res, next) => {
-    const { id } = req.params;
-
+const createSale = async (req, res, next) => {
     try {
-        const sale = await customerOrderService.getById(id);
-        return res.status(200).json(sale);
+      const { useremail, sellerId, totalPrice, 
+        deliveryAddress, deliveryNumber, products } = req.body;
+
+      const { id } = await sellerOrdersService.findUser(useremail);
+      const saleId = await customerOrderService.create({
+        userId: id,
+        sellerId,
+        totalPrice,
+        deliveryAddress,
+        deliveryNumber,
+      }, products);
+      return res.status(201).json(saleId);
     } catch (err) {
-        return next(err);
+      return next(err);
     }
+};
+
+const getSellers = async (_req, res, next) => {
+  try {
+    const allSellers = await customerOrderService.getSellers();
+    return res.status(201).json(allSellers);
+  } catch (err) {
+    next(err);
+  }
 };
 
 const updateStatusEntregue = async (req, res, next) => {
@@ -22,6 +40,7 @@ const updateStatusEntregue = async (req, res, next) => {
 };
 
 module.exports = { 
-    getSaleById,
-    updateStatusEntregue,
+  createSale,
+  updateStatusEntregue,
+  getSellers,
 };
