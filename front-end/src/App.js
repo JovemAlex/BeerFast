@@ -5,6 +5,7 @@ import Checkout from './pages/Checkout';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Products from './pages/Products';
+import Admin from './pages/Admin';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route exact path="/" render={ () => <Redirect to="/login" /> } />
         <Route exact path="/customer/checkout" component={ Checkout } />
         <Route exact path="/customer/products" component={ Products } />
+        <Route exact path="/admin/manage" component={ Admin } />
       </Switch>
     </AppProvider>
   );

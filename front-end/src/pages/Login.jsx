@@ -17,13 +17,27 @@ export default function Login() {
 
   const validateEmailAndPassword = () => {
     const isEmailValid = (email.includes('@')
-        && (email.toLowerCase().includes('.com')));
+      && (email.toLowerCase().includes('.com')));
     const lengthPassword = 6;
     const isPasswordValid = (password.length >= lengthPassword);
     return isEmailValid && isPasswordValid;
   };
 
   const idDisabled = validateEmailAndPassword();
+
+  const newPath = (role) => {
+    // const redirectTo = role === 'customer' ? 'customer/products' : 'seller/orders';
+    // return redirectTo;
+
+    if (role === 'customer') {
+      return 'customer/products';
+    } if (role === 'seller') {
+      return 'seller/orders';
+    } if (role === 'administrator') {
+      return 'admin/manage';
+    }
+    throw new Error('Rota não encontrada');
+  };
 
   useEffect(() => {
     if (user !== '') {
@@ -36,8 +50,8 @@ export default function Login() {
     try {
       const { data } = await axios.post('http://localhost:3001/login', { email, password });
       setUser(data);
-
-      history.push('/customer/products');
+      const path = newPath(data.role);
+      history.push(path);
     } catch (err) {
       setError(true);
     }
@@ -91,8 +105,8 @@ export default function Login() {
 
       </button>
 
-      { error
-      && <span data-testid="common_login__element-invalid-email">Email Invalido</span> }
+      {error
+        && <span data-testid="common_login__element-invalid-email">Email Invalido</span>}
 
     </form>
 
