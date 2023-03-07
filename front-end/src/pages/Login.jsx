@@ -39,14 +39,19 @@ export default function Login() {
   }, [user, setName]);
 
   const newPath = (role) => {
-    const redirectTo = role === 'customer' ? 'customer/products' : 'seller/orders';
-    return redirectTo;
+    if (role === 'customer') {
+      return 'customer/products';
+    } if (role === 'seller') {
+      return 'seller/orders';
+    } if (role === 'administrator') {
+      return 'admin/manage';
+    }
+    throw new Error('Rota não encontrada');
   };
 
   useEffect(() => {
     const verifyLogin = async () => {
       const storagedUser = JSON.parse(localStorage.getItem('user'));
-      console.log(storagedUser);
       if (storagedUser) {
         const path = newPath(storagedUser.role);
         history.push(path);
@@ -60,7 +65,7 @@ export default function Login() {
       const { data } = await axios.post('http://localhost:3001/login', { email, password });
       setUser(data);
       const path = newPath(data.role);
-      setRole(role);
+      setRole(data.role);
       history.push(path);
     } catch (err) {
       setError(true);
