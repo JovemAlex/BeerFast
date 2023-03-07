@@ -10,10 +10,18 @@ const authenticateToken = async ({ email, password }) => {
   });
 
   if (!user) return { type: 'USER_NOT_FOUND' };
-  const token = createToken(user.dataValues);
-  return token;
+  const token = createToken(user.dataValues.email);
+  return { token, role: user.role };
+};
+
+const getUser = async (email) => {
+  const { role } = await User.findOne({
+    where: { email },
+  });
+  return role;
 };
 
 module.exports = {
   authenticateToken,
+  getUser,
 };

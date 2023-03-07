@@ -5,26 +5,26 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    user_id: DataTypes.INTEGER,
-    seller_id: DataTypes.INTEGER,
-    total_price: DataTypes.NUMBER,
-    delivery_address: DataTypes.STRING,
-    delivery_number: DataTypes.STRING,
-    sale_date: DataTypes.DATE,
+    userId: DataTypes.INTEGER,
+    sellerId: DataTypes.INTEGER,
+    totalPrice: DataTypes.NUMBER,
+    deliveryAddress: DataTypes.STRING,
+    deliveryNumber: DataTypes.STRING,
+    saleDate: DataTypes.DATE,
     status: DataTypes.STRING,
   },
   {
     timestamps: false,
-    underscored: false,
+    underscored: true,
     tableName: 'sales',
   }
   );
 
   Sale.associate = (models) => {
-    Sale.belongsTo(models.User, { foreignKey: 'user_id', as: 'userId' }),
-    Sale.belongsTo(models.User, { foreignKey: 'seller_id', as: 'sellerId' })
+    Sale.belongsTo(models.User, { foreignKey: 'userId', as: 'user' }),
+    Sale.belongsTo(models.User, { foreignKey: 'sellerId', as: 'seller' })
 
-    Sale.hasMany(models.SaleProduct, { foreignKey: 'sale_id', as: 'saleId' })
+    Sale.hasMany(models.SaleProduct, { foreignKey: 'saleId', as: 'sale' })
   };
 
   return Sale;

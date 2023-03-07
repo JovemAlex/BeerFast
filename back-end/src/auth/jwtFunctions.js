@@ -20,10 +20,10 @@ const createToken = (email) => {
 
 const authenticateToken = (token) => {
   try {
-      const validateToken = jwt.verify(token, getSecret());
-      return validateToken;
+    const validateToken = jwt.verify(token, getSecret());
+    return validateToken;
   } catch (err) {
-      return false;
+    return false;
   }
 };
 

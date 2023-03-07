@@ -30,14 +30,31 @@ export default function Login() {
       localStorage.setItem('user', JSON.stringify(user));
       setName(user.name);
     }
-  }, [user]);
+  }, [user, setName]);
+
+  const newPath = (role) => {
+    const redirectTo = role === 'customer' ? 'customer/products' : 'seller/orders';
+    return redirectTo;
+  };
+
+  useEffect(() => {
+    const verifyLogin = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        const { role } = await axios.get('http://localhost:3001/login', { headers: { Authorization: token } });
+        const path = newPath(role);
+        history.push(path);
+      }
+    };
+    verifyLogin();
+  }, [history]);
 
   const loginPost = async () => {
     try {
       const { data } = await axios.post('http://localhost:3001/login', { email, password });
       setUser(data);
-
-      history.push('/customer/products');
+      const path = newPath(data.role);
+      history.push(path);
     } catch (err) {
       setError(true);
     }
