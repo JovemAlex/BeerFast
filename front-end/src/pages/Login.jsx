@@ -4,26 +4,31 @@ import { useHistory } from 'react-router-dom';
 import AppContext from '../contexts/AppContext';
 
 export default function Login() {
-  // const [disabled, setDisabled] = useState(true);
+  const [disabled, setDisabled] = useState(true);
   const [error, setError] = useState(false);
+  const [email, setEmail] = useState('');
   const [user, setUser] = useState('');
-  const { email,
-    setEmail,
+  const { /* email, */
+    // setEmail,
     password,
     setPassword,
     setName,
   } = useContext(AppContext);
   const history = useHistory();
 
-  const validateEmailAndPassword = () => {
-    const isEmailValid = (email.includes('@')
-        && (email.toLowerCase().includes('.com')));
-    const lengthPassword = 6;
-    const isPasswordValid = (password.length >= lengthPassword);
-    return isEmailValid && isPasswordValid;
-  };
+  useEffect(() => {
+    const validateEmailAndPassword = () => {
+      const isEmailValid = (email.includes('@')
+          && (email.toLowerCase().includes('.com')));
+      const lengthPassword = 6;
+      const isPasswordValid = (password.length >= lengthPassword);
+      setDisabled(isEmailValid && isPasswordValid);
+      // return isEmailValid && isPasswordValid;
+    };
+    validateEmailAndPassword();
+  }, [password, email]);
 
-  const idDisabled = validateEmailAndPassword();
+  // const idDisabled = validateEmailAndPassword();
 
   useEffect(() => {
     if (user !== '') {
@@ -39,10 +44,10 @@ export default function Login() {
 
   useEffect(() => {
     const verifyLogin = async () => {
-      const token = localStorage.getItem('token');
-      if (token) {
-        const { role } = await axios.get('http://localhost:3001/login', { headers: { Authorization: token } });
-        const path = newPath(role);
+      const storagedUser = JSON.parse(localStorage.getItem('user'));
+      console.log(storagedUser);
+      if (storagedUser) {
+        const path = newPath(storagedUser.role);
         history.push(path);
       }
     };
@@ -93,7 +98,7 @@ export default function Login() {
       <button
         type="button"
         data-testid="common_login__button-login"
-        disabled={ !idDisabled }
+        disabled={ !disabled }
         onClick={ handleClick }
       >
         LOGIN
