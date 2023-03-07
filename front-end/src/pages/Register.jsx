@@ -14,7 +14,7 @@ export default function Register() {
     setPassword,
     name,
     setName,
-    setRole,
+    // setRole,
   } = useContext(AppContext);
   const history = useHistory();
 
