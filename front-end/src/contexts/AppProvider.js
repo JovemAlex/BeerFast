@@ -8,6 +8,7 @@ function AppProvider({ children }) {
   const [name, setName] = useState('');
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [total, setTotal] = useState(0);
+  const [role, setRole] = useState('');
 
   const calculateTotal = useCallback(() => selectedProducts
     .reduce((acc, cur) => acc + Number(cur.price) * cur.quantity, 0), [selectedProducts]);
@@ -91,6 +92,8 @@ function AppProvider({ children }) {
     addProduct,
     removeProduct,
     setProduct,
+    role,
+    setRole,
   }), [
     email,
     password,
@@ -103,6 +106,8 @@ function AppProvider({ children }) {
     addProduct,
     removeProduct,
     setProduct,
+    role,
+    setRole,
   ]);
 
   return (

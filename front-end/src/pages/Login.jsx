@@ -13,6 +13,7 @@ export default function Login() {
     password,
     setPassword,
     setName,
+    setRole,
   } = useContext(AppContext);
   const history = useHistory();
 
@@ -59,6 +60,7 @@ export default function Login() {
       const { data } = await axios.post('http://localhost:3001/login', { email, password });
       setUser(data);
       const path = newPath(data.role);
+      setRole(role);
       history.push(path);
     } catch (err) {
       setError(true);
