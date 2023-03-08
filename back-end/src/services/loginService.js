@@ -11,7 +11,7 @@ const authenticateToken = async ({ email, password }) => {
 
   if (!user) return { type: 'USER_NOT_FOUND' };
   const token = createToken(user.dataValues.email);
-  return { token, role: user.role };
+  return { token, role: user.role, name: user.name, email: user.email };
 };
 
 const getUser = async (email) => {

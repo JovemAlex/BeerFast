@@ -6,8 +6,8 @@ const register = async (req, res, next) => {
     const result = await registerService.register({ ...data, role: 'customer' });
   
     if (result.message) return res.status(409).send(result);
-  
-    return res.status(201).json({ token: result });
+
+    return res.status(201).json({ ...result });
   } catch (error) {
     next(error);
   }

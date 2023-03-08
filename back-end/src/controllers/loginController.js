@@ -1,4 +1,5 @@
 const loginService = require('../services/loginService');
+// const { User } = require('../database/models');
 
 const login = async (req, res, next) => {
   try {
@@ -9,9 +10,14 @@ const login = async (req, res, next) => {
         .json({ message: 'Not found' });
     }
 
-    req.user = auth;
+    // req.user = auth;
 
-    return res.status(200).json({ token: auth.token, role: auth.role });
+    // const user = await User.findOne({
+    //   where: {email:req.body.email}
+    // })
+
+    return res.status(200).json({ ...auth });
+    // return res.status(200).json({ token: auth.token, role: auth.role });
   } catch (err) {
     next(err);
   }

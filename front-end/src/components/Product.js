@@ -34,7 +34,7 @@ export default function Product({ product }) {
 
       </h2>
       <img
-        src={ product.url_image }
+        src={ product.urlImage }
         alt=""
         data-testid={ `customer_products__img-card-bg-image-${product.id}` }
       />
@@ -76,7 +76,7 @@ Product.propTypes = {
   product: PropTypes.shape({
     id: PropTypes.number.isRequired,
     price: PropTypes.string.isRequired,
-    url_image: PropTypes.string.isRequired,
+    urlImage: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
   }).isRequired,
 };
