@@ -21,7 +21,18 @@ const updateStatusEntregue = async (req, res, next) => {
   }
 };
 
+const getOrdersByUser = async (req, res, next) => {
+  try {
+    const { email } = req.user;
+    const allOrders = await customerOrderService.getAllOrdersBySeller(email);
+    return res.status(200).json(allOrders);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = { 
     getSaleById,
     updateStatusEntregue,
+    getOrdersByUser,
 };
