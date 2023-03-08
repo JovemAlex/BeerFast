@@ -8,6 +8,7 @@ const route = express.Router();
 
 route.get('/:id', verifyToken, customerOrderController.getSaleById);
 route.put('/:id/status/entregue', verifyToken, customerOrderController.updateStatusEntregue);
+route.get('/', verifyToken, customerOrderController.getOrdersByUser);
 
 route.use(authenticateToken);
 
