@@ -1,4 +1,4 @@
-const { Sale, SaleProduct, Product } = require('../database/models');
+const { Sale, SaleProduct, Product, User } = require('../database/models');
 const registerService = require('./registerService');
 
 const getOrderById = async (id, email) => {
@@ -28,12 +28,21 @@ const updateStatus = async (id, newStatus) => {
   return getOrderById(id);
 };
 
+const findUser = async (email) => {
+  const [result] = await User.findAll({
+    where: { email },
+  });
+  console.log(result);
+  return result;  
+};
+
 const getAllOrdersBySeller = async (email) => {
-  const { id } = await registerService.findUser({ name: null, email }); // verificar se a query retorna o esperado
+  const { id } = await findUser(email);
   const allOrders = await Sale.findAll({
     where: { sellerId: id },
   });
-  return allOrders;
+  const orderDataValues = allOrders.map((order) => order.dataValues);
+  return orderDataValues;
 };
 
 module.exports = { getOrderById, updateStatus, getAllOrdersBySeller };

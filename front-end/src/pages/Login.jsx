@@ -4,26 +4,32 @@ import { useHistory } from 'react-router-dom';
 import AppContext from '../contexts/AppContext';
 
 export default function Login() {
-  // const [disabled, setDisabled] = useState(true);
+  const [disabled, setDisabled] = useState(true);
   const [error, setError] = useState(false);
+  const [email, setEmail] = useState('');
   const [user, setUser] = useState('');
-  const { email,
-    setEmail,
+  const { /* email, */
+    // setEmail,
     password,
     setPassword,
     setName,
+    setRole,
   } = useContext(AppContext);
   const history = useHistory();
 
-  const validateEmailAndPassword = () => {
-    const isEmailValid = (email.includes('@')
-      && (email.toLowerCase().includes('.com')));
-    const lengthPassword = 6;
-    const isPasswordValid = (password.length >= lengthPassword);
-    return isEmailValid && isPasswordValid;
-  };
+  useEffect(() => {
+    const validateEmailAndPassword = () => {
+      const isEmailValid = (email.includes('@')
+          && (email.toLowerCase().includes('.com')));
+      const lengthPassword = 6;
+      const isPasswordValid = (password.length >= lengthPassword);
+      setDisabled(isEmailValid && isPasswordValid);
+      // return isEmailValid && isPasswordValid;
+    };
+    validateEmailAndPassword();
+  }, [password, email]);
 
-  const idDisabled = validateEmailAndPassword();
+  // const idDisabled = validateEmailAndPassword();
 
   const newPath = (role) => {
     // const redirectTo = role === 'customer' ? 'customer/products' : 'seller/orders';
@@ -44,13 +50,36 @@ export default function Login() {
       localStorage.setItem('user', JSON.stringify(user));
       setName(user.name);
     }
-  }, [user]);
+  }, [user, setName]);
+
+  const newPath = (role) => {
+    if (role === 'customer') {
+      return 'customer/products';
+    } if (role === 'seller') {
+      return 'seller/orders';
+    } if (role === 'administrator') {
+      return 'admin/manage';
+    }
+    throw new Error('Rota não encontrada');
+  };
+
+  useEffect(() => {
+    const verifyLogin = async () => {
+      const storagedUser = JSON.parse(localStorage.getItem('user'));
+      if (storagedUser) {
+        const path = newPath(storagedUser.role);
+        history.push(path);
+      }
+    };
+    verifyLogin();
+  }, [history]);
 
   const loginPost = async () => {
     try {
       const { data } = await axios.post('http://localhost:3001/login', { email, password });
       setUser(data);
       const path = newPath(data.role);
+      setRole(data.role);
       history.push(path);
     } catch (err) {
       setError(true);
@@ -90,7 +119,7 @@ export default function Login() {
       <button
         type="button"
         data-testid="common_login__button-login"
-        disabled={ !idDisabled }
+        disabled={ !disabled }
         onClick={ handleClick }
       >
         LOGIN
