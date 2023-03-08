@@ -29,7 +29,24 @@ const updateStatus = async (id, newStatus) => {
   return getById(id);
 };
 
+const findUser = async (email) => {
+  const [result] = await User.findAll({
+    where: { email },
+  });
+  return result.dataValues;  
+};
+
+const getAllOrdersBySeller = async (email) => {
+  const { id } = await findUser(email);
+  const allOrders = await Sale.findAll({
+    where: { userId: id },
+  });
+  const orderDataValues = allOrders.map((order) => order.dataValues);
+  return orderDataValues;
+};
+
 module.exports = { 
     getById,
     updateStatus,
+    getAllOrdersBySeller,
 };
