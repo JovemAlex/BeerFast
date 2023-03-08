@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import AppContext from '../contexts/AppContext';
 
-import getTotalPrice from '../utils/helpers';
+import { getSellers } from '../utils/helpers';
 
 const ROUTE = 'customer_checkout';
 const SELLER = 'select-seller';
@@ -14,45 +15,47 @@ function AddressTable() {
   const history = useHistory();
 
   const [sellers, setSellers] = useState([]);
-  const [sellerId, setSellerId] = useState(0);
+  const [sellerId, setSellerId] = useState(2);
   const [deliveryAddress, setDeliveryAddress] = useState('');
-  const [deliveryNumber, setDeliveryNumber] = useState(0);
+  const [deliveryNumber, setDeliveryNumber] = useState('');
+  const { total, selectedProducts } = useContext(AppContext);
 
   useEffect(() => {
-    const getSellers = async () => {
+    const fetchSellers = async () => {
+      const response = await getSellers();
+      setSellers(response);
     };
-    setSellers(getSellers);
-    getSellers();
+    fetchSellers();
   }, []);
 
-  const createSale = async (data) => {
+  const createSale = async (saleData) => {
     const URL = 'http://localhost:3001/customer/orders/';
-    const token = JSON.parse(localStorage.getItem('token')) || '';
+    const { token } = JSON.parse(localStorage.getItem('user')) || '';
 
-    const response = await axios.post(URL, data, {
+    console.log(token);
+
+    const { data } = await axios.post(URL, saleData, {
       headers: {
         authorization: token,
       },
     });
 
-    const { id } = await response.json();
-    return id;
+    console.log(data.saleId);
+    return data.saleId;
   };
 
   const createDelivery = async () => {
-    const totalPrice = getTotalPrice();
-    const cart = JSON.parse(localStorage.getItem('cart'));
-    const useremail = JSON.parse(localStorage.getItem('user')) || '';
+    const { email } = JSON.parse(localStorage.getItem('user')) || '';
 
-    const products = cart.map(({ productId, quantity }) => ({
-      productId,
+    const products = selectedProducts.map(({ id, quantity }) => ({
+      productId: id,
       quantity,
     }));
 
     const id = await createSale(
-      { useremail,
+      { email,
         sellerId,
-        totalPrice,
+        totalPrice: total,
         deliveryAddress,
         deliveryNumber,
         products },
@@ -60,16 +63,24 @@ function AddressTable() {
     history.push(`/customer/orders/${id}`);
   };
 
+  const handleSellerChange = (event) => {
+    setSellerId(event.target.value);
+  };
+
   return (
     <main>
       <h1>Detalhes e Endereço para Entrega</h1>
+      <p>{ console.log(deliveryAddress)}</p>
+      <p>{ console.log(deliveryNumber)}</p>
+      { console.log(total) }
+      { console.log(selectedProducts) }
       <form>
         <label htmlFor="seller">
           P. Vendedora Responsável
           <select
             data-testid={ `${ROUTE}__${SELLER}` }
             id="seller"
-            onChange={ ({ target }) => setSellerId(target.value) }
+            onChange={ handleSellerChange }
           >
             {sellers.map((seller, index) => (
               <option

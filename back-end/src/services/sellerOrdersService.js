@@ -45,4 +45,4 @@ const getAllOrdersBySeller = async (email) => {
   return orderDataValues;
 };
 
-module.exports = { getOrderById, updateStatus, getAllOrdersBySeller };
+module.exports = { getOrderById, updateStatus, getAllOrdersBySeller, findUser };

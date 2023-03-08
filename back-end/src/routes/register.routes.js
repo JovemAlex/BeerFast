@@ -8,7 +8,7 @@ register.post(
   '/',
   verifyFields,
   verifyRegisterData,
-  (req, res) => registerController.register(req, res),
+  (req, res, next) => registerController.register(req, res, next),
   );
 
 module.exports = register;

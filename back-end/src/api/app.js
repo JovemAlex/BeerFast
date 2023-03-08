@@ -30,7 +30,7 @@ app.get('/coffee', (_req, res) => res.status(418).end());
 app.use('/login', loginRouter);
 app.use('/customer/products', productRouter);
 app.use('/register', registerRoutes);
-app.use('/customer/orders/sellers', customerOrderRouter);
+app.use('/customer/orders', customerOrderRouter);
 app.use('/seller/orders', sellerOrdersRouter);
 
 app.use(errorMiddleware);

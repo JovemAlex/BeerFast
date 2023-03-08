@@ -1,5 +1,4 @@
-const sequelize = require('sequelize');
-const { Sale, SaleProduct, User } = require('../database/models');
+const { Sale, SaleProduct, User, sequelize } = require('../database/models');
 
 const getById = async (id) => {
   const sale = await Sale.findByPk(id);
@@ -15,10 +14,10 @@ const updateStatus = async (id, newStatus) => {
 };
 
 const create = async (sale, products) => {
-  const result = await sequelize.Transaction(async (t) => {
+  const result = await sequelize.transaction(async (t) => {
     const newSale = {
       ...sale,
-      saleDate: Date(),
+      saleDate: new Date(),
       status: 'Pendente',
     };
 
@@ -28,21 +27,22 @@ const create = async (sale, products) => {
       { saleId, productId, quantity },
       { transaction: t },
     )));
-
     return saleId;
   });
   return result;
 };
 
 const getSellers = async () => {
-  const [sellers] = await User.findAll(
+  const sellers = await User.findAll(
     {
       where: {
         role: 'seller',
-      }
+      },
+      attributes: {
+        exclude: ['email', 'password', 'role'],
+      },
     },
   );
-  console.log(sellers);
   return sellers;
 };
 
