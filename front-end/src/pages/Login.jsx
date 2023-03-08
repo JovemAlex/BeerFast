@@ -31,20 +31,6 @@ export default function Login() {
 
   // const idDisabled = validateEmailAndPassword();
 
-  const newPath = (role) => {
-    // const redirectTo = role === 'customer' ? 'customer/products' : 'seller/orders';
-    // return redirectTo;
-
-    if (role === 'customer') {
-      return 'customer/products';
-    } if (role === 'seller') {
-      return 'seller/orders';
-    } if (role === 'administrator') {
-      return 'admin/manage';
-    }
-    throw new Error('Rota não encontrada');
-  };
-
   useEffect(() => {
     if (user !== '') {
       localStorage.setItem('user', JSON.stringify(user));
