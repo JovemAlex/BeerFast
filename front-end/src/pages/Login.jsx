@@ -120,8 +120,8 @@ export default function Login() {
 
       </button>
 
-      { error
-      && <span data-testid="common_login__element-invalid-email">Email Invalido</span> }
+      {error
+        && <span data-testid="common_login__element-invalid-email">Email Invalido</span>}
 
     </form>
 
