@@ -14,7 +14,7 @@ const createSale = async (req, res, next) => {
       deliveryAddress,
       deliveryNumber,
     }, products);
-    console.log(saleId)
+    console.log(saleId);
     return res.status(201).json({ saleId });
   } catch (err) {
     return next(err);
