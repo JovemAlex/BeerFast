@@ -1,5 +1,10 @@
 const { Sale, SaleProduct, Product, User, sequelize } = require('../database/models');
 
+// const getById = async (id) => {
+//   const sale = await Sale.findByPk(id);
+//   return sale;
+// const { Sale, SaleProduct, Product, User } = require('../database/models');
+
 const getById = async (id) => {
   const sale = await Sale.findOne({
     where: { id },
@@ -88,5 +93,6 @@ module.exports = {
   updateStatus,
   getAllOrdersBySeller,
   create,
-  getSellers, 
+  getSellers,
+  getById,
 };
