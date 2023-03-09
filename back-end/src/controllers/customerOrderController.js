@@ -51,7 +51,6 @@ const getOrdersByUser = async (req, res, next) => {
 };
 
 module.exports = {
-    getSaleById,
     updateStatusEntregue,
     getOrdersByUser,
     createSale,
