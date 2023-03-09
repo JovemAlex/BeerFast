@@ -89,10 +89,9 @@ const getSellers = async () => {
 };
 
 module.exports = { 
-  getById,
-  updateStatus,
-  getAllOrdersBySeller,
-  create,
-  getSellers,
-  getById,
+    updateStatus,
+    create,
+    getSellers,
+    getById,
+    getAllOrdersBySeller,
 };
