@@ -4,28 +4,30 @@ import AppContext from '../contexts/AppContext';
 
 export default function OrderDetailsHeader({ order }) {
   const { role } = useContext(AppContext);
+  const userRole = role || JSON.parse(localStorage.getItem('user')).role;
+  const dataTest = `${userRole}_order_details__element-order-details`;
 
   return (
     <section>
       Detalhes do pedido
       <p
-        data-testid={ `${role}_order_details__element-order-details-label-order-id` }
+        data-testid={ `${dataTest}-label-order-id` }
       >
         { `PEDIDO ${order.id}` }
       </p>
       <p
-        data-testid={ `${role}_order_details__element-order-details-label-seller-name` }
+        data-testid={ `${dataTest}-label-seller-name` }
       >
         {`P. Vend: ${order.seller.name}`}
       </p>
       <p
-        data-testid={ `${role}_order_details__element-order-details-label-order-date` }
+        data-testid={ `${dataTest}-label-order-date` }
       >
         {`${order.saleDate}`}
       </p>
       <p
         data-testid={
-          `${role}_order_details__element-order-details-label-delivery-status`
+          `${dataTest}-label-delivery-status`
         }
       >
         {`${order.status}`}

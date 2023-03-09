@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import AppContext from '../contexts/AppContext';
 
 export default function OrderDetailsSummary({ item, number }) {
-  const dataTest = 'customer_order_details__element-order-table';
+  const { role } = useContext(AppContext);
+  const userRole = role || JSON.parse(localStorage.getItem('user')).role;
+  const dataTest = `${userRole}_order_details__element-order-table`;
   return (
     <section>
       <p
