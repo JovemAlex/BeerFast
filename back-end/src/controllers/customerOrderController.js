@@ -50,9 +50,9 @@ const getOrdersByUser = async (req, res, next) => {
   }
 };
 
-module.exports = {
-    updateStatusEntregue,
-    getOrdersByUser,
-    createSale,
-    getSellers,
+module.exports = { 
+  createSale,
+  updateStatusEntregue,
+  getSellers,
+  getOrdersByUser,
 };
