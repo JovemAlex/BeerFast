@@ -1,21 +1,20 @@
 import React, { useEffect } from 'react';
+import getTotalPrice from '../utils/helpers';
 
 const ROUTE = 'customer_checkout';
-const ITEMELEMENT = 'element-order-table-item-number';
-const NAMEELEMENT = 'element-order-table-name';
-const QUANTITYELEMENT = 'element-order-table-quantity';
-const UNITPRICEELEMENT = 'element-order-table-unit-price';
-const SUBTOTALELEMENT = 'element-order-table-sub-total';
-const REMOVEELEMENT = 'element-order-table-remove';
-const TOTALPRICEELEMENT = 'element-order-total-price';
+const ITEM = 'element-order-table-item-number';
+const NAME = 'element-order-table-name';
+const QUANTITY = 'element-order-table-quantity';
+const UNITPRICE = 'element-order-table-unit-price';
+const SUBTOTAL = 'element-order-table-sub-total';
+const REMOVE = 'element-order-table-remove';
+const TOTALPRICE = 'element-order-total-price';
 
 function ProductsTable() {
   const [products, setProducts] = useState([]);
   const [totalPrice, setTotalPrice] = useState('00,00');
 
   const getCart = () => JSON.parse(localStorage.getItem('cart'));
-  // Considere utilizar o localStorage como forma de armazenar uma entidade carrinho;
-  // Cada card deve possibilitar a adição, remoção ou definição manual da quantidade de itens de cada produto
 
   useEffect(() => {
     const cart = getCart();
@@ -23,11 +22,7 @@ function ProductsTable() {
   }, []);
 
   useEffect(() => {
-    const cart = getCart();
-    const currentTotalPrice = cart
-      .reduce((acc, curr) => (Number(curr.price) * curr.quantity) + acc, 0)
-      .toFixed(2)
-      .replace('.', ',');
+    const currentTotalPrice = getTotalPrice();
     setTotalPrice(currentTotalPrice);
   }, [products]);
 
@@ -52,20 +47,20 @@ function ProductsTable() {
         <tbody>
           {products && products.map((product, index) => (
             <tr key={ index }>
-              <td data-testid={ `${ROUTE}__${ITEMELEMENT}-${index}` }>{index + 1}</td>
-              <td data-testid={ `${ROUTE}__${NAMEELEMENT}-${index}` }>{product.name}</td>
-              <td data-testid={ `${ROUTE}__${QUANTITYELEMENT}-${product.quantity}` }>
+              <td data-testid={ `${ROUTE}__${ITEM}-${index}` }>{index + 1}</td>
+              <td data-testid={ `${ROUTE}__${NAME}-${index}` }>{product.name}</td>
+              <td data-testid={ `${ROUTE}__${QUANTITY}-${product.quantity}` }>
                 {product.quantity}
               </td>
-              <td data-testid={ `${ROUTE}__${UNITPRICEELEMENT}-${index}` }>
+              <td data-testid={ `${ROUTE}__${UNITPRICE}-${index}` }>
                 {Number(product.price).replace('.', ',')}
               </td>
-              <td data-testid={ `${ROUTE}__${SUBTOTALELEMENT}-${index}` }>
+              <td data-testid={ `${ROUTE}__${SUBTOTAL}-${index}` }>
                 {(Number(product.price) * product.quantity).toFixed(2).replace('.', ',')}
               </td>
               <td>
                 <button
-                  data-testid={ `${ROUTE}__${REMOVEELEMENT}-${index}` }
+                  data-testid={ `${ROUTE}__${REMOVE}-${index}` }
                   type="button"
                   onClick={ ({ target }) => removeProduct(target.id) }
                 >
@@ -76,7 +71,7 @@ function ProductsTable() {
           ))}
         </tbody>
       </table>
-      <h2 data-testid={ `${ROUTE}__${TOTALPRICEELEMENT}` }>
+      <h2 data-testid={ `${ROUTE}__${TOTALPRICE}` }>
         Total: R$
         {products && totalPrice}
       </h2>

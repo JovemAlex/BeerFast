@@ -8,7 +8,7 @@ function TotalPrice() {
     <h2 data-testid="customer_checkout__element-order-total-price">
       <strong>Total:</strong>
       {' '}
-      { total }
+      { Number(total).toFixed(2).replace('.', ',') }
     </h2>
   );
 }

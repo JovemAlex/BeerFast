@@ -66,18 +66,21 @@ function AppProvider({ children }) {
     const existingProduct = selectedProducts.find((item) => item.id === product.id);
 
     if (existingProduct) {
-      const updatedProducts = selectedProducts.map((item) => {
-        if (item.id === product.id) {
-          return { ...item, quantity: item.quantity - 1 };
-        }
-        return item;
-      });
+      // adiciona esse if para validar o 0
+      if (existingProduct.quantity === 1) {
+        setSelectedProducts(selectedProducts.filter((item) => item.id !== product.id));
+      } else {
+        const updatedProducts = selectedProducts.map((item) => {
+          if (item.id === product.id) {
+            return { ...item, quantity: item.quantity - 1 };
+          }
+          return item;
+        });
 
-      setSelectedProducts(updatedProducts);
-    } else {
-      setSelectedProducts([...selectedProducts, { ...product, quantity: 1 }]);
+        setSelectedProducts(updatedProducts);
+      }
+      setTotal(calculateTotal());
     }
-    setTotal(calculateTotal());
   }, [calculateTotal, selectedProducts]);
 
   const contextApp = useMemo(() => ({
@@ -94,6 +97,7 @@ function AppProvider({ children }) {
     setProduct,
     role,
     setRole,
+    setSelectedProducts,
   }), [
     email,
     password,
@@ -108,6 +112,7 @@ function AppProvider({ children }) {
     setProduct,
     role,
     setRole,
+    setSelectedProducts,
   ]);
 
   return (
