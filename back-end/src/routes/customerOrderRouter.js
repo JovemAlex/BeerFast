@@ -11,6 +11,7 @@ route.post('/', verifyToken, customerOrderController.createSale);
 // route.get('/:id', verifyToken, customerOrderController.getSaleById);
 route.get('/sellers', customerOrderController.getSellers);
 // route.put('/:id/status/entregue', verifyToken, customerOrderController.updateStatusEntregue);
+route.get('/', verifyToken, customerOrderController.getOrdersByUser);
 
 route.use(authenticateToken);
 
