@@ -6,8 +6,10 @@ const customerOrderController = require('../controllers/customerOrderController'
 
 const route = express.Router();
 
-route.get('/:id', verifyToken, customerOrderController.getSaleById);
-route.put('/:id/status/entregue', verifyToken, customerOrderController.updateStatusEntregue);
+route.post('/', verifyToken, customerOrderController.createSale);
+// route.get('/:id', verifyToken, customerOrderController.getSaleById);
+route.get('/sellers', customerOrderController.getSellers);
+// route.put('/:id/status/entregue', verifyToken, customerOrderController.updateStatusEntregue);
 
 route.use(authenticateToken);
 
