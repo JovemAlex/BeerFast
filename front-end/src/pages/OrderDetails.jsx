@@ -5,6 +5,7 @@ import OrderDetailsHeader from '../components/OrderDetailsHeader';
 import OrderDetailsSummary from '../components/OrderDetailsSummary';
 import AppContext from '../contexts/AppContext';
 import TotalPrice from '../components/TotalPrice';
+import Navbar from '../components/Navbar';
 
 export default function OrderDetails() {
   const { role, setTotal } = useContext(AppContext);
@@ -33,6 +34,7 @@ export default function OrderDetails() {
 
   return (
     <main>
+      <Navbar />
       {
         loading ? (
           <span>Carregando...</span>

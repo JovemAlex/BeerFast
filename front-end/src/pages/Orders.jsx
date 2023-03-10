@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import OrderCard from '../components/OrderCard';
 import AppContext from '../contexts/AppContext';
+import Navbar from '../components/Navbar';
 
 export default function Orders() {
   const [orders, setOrders] = useState([]);
@@ -26,6 +27,7 @@ export default function Orders() {
 
   return (
     <main>
+      <Navbar />
       {
         orders.map((order) => (
           <OrderCard key={ order.id } orderDetails={ order } />

@@ -6,6 +6,9 @@ export default function OrderDetailsSummary({ item, number, order }) {
   const { role } = useContext(AppContext);
   const userRole = role || JSON.parse(localStorage.getItem('user')).role;
   const dataTest = `${userRole}_order_details__element-order`;
+
+  // const formatFirstLetter = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+
   return (
     <section>
       <p
@@ -13,7 +16,8 @@ export default function OrderDetailsSummary({ item, number, order }) {
           `${dataTest}-details-label-delivery-status-${number}`
         }
       >
-        {`${order.status}`}
+        {/* {`${formatFirstLetter(order.status)}`} */}
+        { order.status }
       </p>
       <button
         type="button"

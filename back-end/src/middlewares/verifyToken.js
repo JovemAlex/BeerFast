@@ -2,6 +2,7 @@ const { authenticateToken } = require('../auth/jwtFunctions');
 
 const verifyToken = async (req, res, next) => {
 const { authorization } = req.headers;
+console.log(req.headers);
 
 console.log('token: ', authorization);
 
