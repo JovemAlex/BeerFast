@@ -24,7 +24,7 @@ function Navbar() {
 
           <Link
             data-testid="customer_products__element-navbar-link-orders"
-            to="/customer/products"
+            to="/customer/orders"
             className="myOrders"
           >
             MEUS PEDIDOS

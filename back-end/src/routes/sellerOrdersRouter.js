@@ -4,6 +4,17 @@ const { verifyToken } = require('../middlewares/verifyToken');
 
 const sellerOrdersRouter = express.Router();
 
+sellerOrdersRouter.get(
+  '/:id',
+  verifyToken,
+  sellerOrdersController.getOrderById,
+  );
+
+sellerOrdersRouter.get(
+  '/',
+  verifyToken,
+  sellerOrdersController.getAllOrdersBySeller,
+  );
 sellerOrdersRouter.put(
   '/:id/status/pendente',
   verifyToken,
@@ -18,17 +29,6 @@ sellerOrdersRouter.put(
   '/:id/status/em-transito',
   verifyToken,
   sellerOrdersController.updateStatusEmTransito,
-  );
-sellerOrdersRouter.get(
-  '/:id',
-  verifyToken,
-  sellerOrdersController.getOrderById,
-  );
-
-sellerOrdersRouter.get(
-  '/',
-  verifyToken,
-  sellerOrdersController.getAllOrdersBySeller,
   );
 
 module.exports = sellerOrdersRouter;
