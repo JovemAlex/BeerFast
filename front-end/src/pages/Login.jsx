@@ -7,11 +7,12 @@ export default function Login() {
   const [disabled, setDisabled] = useState(true);
   const [error, setError] = useState(false);
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [user, setUser] = useState('');
   const { /* email, */
     // setEmail,
-    password,
-    setPassword,
+    // password,
+    // setPassword,
     setName,
     setRole,
   } = useContext(AppContext);

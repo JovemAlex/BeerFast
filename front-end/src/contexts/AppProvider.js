@@ -98,6 +98,7 @@ function AppProvider({ children }) {
     role,
     setRole,
     setSelectedProducts,
+    setTotal,
   }), [
     email,
     password,
@@ -113,6 +114,7 @@ function AppProvider({ children }) {
     role,
     setRole,
     setSelectedProducts,
+    setTotal,
   ]);
 
   return (

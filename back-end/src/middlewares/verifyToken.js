@@ -2,8 +2,9 @@ const { authenticateToken } = require('../auth/jwtFunctions');
 
 const verifyToken = async (req, res, next) => {
 const { authorization } = req.headers;
+console.log(req.headers);
 
-console.log(authorization);
+console.log('token: ', authorization);
 
 if (!authorization) {
   return res.status(401).json({ message: 'Token not found' });

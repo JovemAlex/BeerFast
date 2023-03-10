@@ -1,11 +1,13 @@
 import { useContext } from 'react';
+import PropTypes from 'prop-types';
 import AppContext from '../contexts/AppContext';
 
-function TotalPrice() {
+function TotalPrice({ dataTestId }) {
   const { total } = useContext(AppContext);
 
   return (
-    <h2 data-testid="customer_checkout__element-order-total-price">
+    <h2 data-testid={ dataTestId }>
+      { console.log(total) }
       <strong>Total:</strong>
       {' '}
       { Number(total).toFixed(2).replace('.', ',') }
@@ -14,3 +16,7 @@ function TotalPrice() {
 }
 
 export default TotalPrice;
+
+TotalPrice.propTypes = {
+  dataTestId: PropTypes.string.isRequired,
+};

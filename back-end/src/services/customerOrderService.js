@@ -1,8 +1,34 @@
-const { Sale, SaleProduct, User, sequelize } = require('../database/models');
+const { Sale, SaleProduct, Product, User, sequelize } = require('../database/models');
+
+// const getById = async (id) => {
+//   const sale = await Sale.findByPk(id);
+//   return sale;
+// const { Sale, SaleProduct, Product, User } = require('../database/models');
 
 const getById = async (id) => {
-  const sale = await Sale.findByPk(id);
-  return sale;
+  const sale = await Sale.findOne({
+    where: { id },
+    include: [
+      { model: User, as: 'seller', attributes: ['name'] },
+      {
+        model: SaleProduct,
+        as: 'sale',
+        attributes: ['quantity'],
+        include: [{
+        model: Product,
+        as: 'product',
+        attributes: { exclude: ['urlImage'] },
+        }],
+      },
+    ],
+  });
+    
+    return sale;
+// const { Sale, SaleProduct, User, sequelize } = require('../database/models');
+
+// const getById = async (id) => {
+  // const sale = await Sale.findByPk(id);
+  // return sale;
 };
 
 const updateStatus = async (id, newStatus) => {
@@ -11,6 +37,22 @@ const updateStatus = async (id, newStatus) => {
     { where: { id } },
   );
   return getById(id);
+};
+
+const findUser = async (email) => {
+  const [result] = await User.findAll({
+    where: { email },
+  });
+  return result.dataValues;  
+};
+
+const getAllOrdersBySeller = async (email) => {
+  const { id } = await findUser(email);
+  const allOrders = await Sale.findAll({
+    where: { userId: id },
+  });
+  const orderDataValues = allOrders.map((order) => order.dataValues);
+  return orderDataValues;
 };
 
 const create = async (sale, products) => {
@@ -33,6 +75,7 @@ const create = async (sale, products) => {
 };
 
 const getSellers = async () => {
+  console.log('sellers back-end');
   const sellers = await User.findAll(
     {
       where: {
@@ -46,8 +89,10 @@ const getSellers = async () => {
   return sellers;
 };
 
-module.exports = {
-  updateStatus,
-  create,
-  getSellers,
+module.exports = { 
+    updateStatus,
+    create,
+    getSellers,
+    getById,
+    getAllOrdersBySeller,
 };

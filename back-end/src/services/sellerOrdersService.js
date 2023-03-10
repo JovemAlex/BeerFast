@@ -1,23 +1,58 @@
 const { Sale, SaleProduct, Product, User } = require('../database/models');
-const registerService = require('./registerService');
 
-const getOrderById = async (id, email) => {
-  const user = await registerService.findUser({ name: null, email }); // verificar se a query retorna o esperado
-  const order = await Sale.findOne({
-    where: { sellerId: user.id, id },
-    include: [{
-      model: SaleProduct,
-      required: true, 
-      as: 'saleId', // alterar no model para salesProducts
-      include: [{
-        model: Product,
-        required: true,
-        as: 'productId', // alterar no model para product
-      }],
-    }],
+const findUser = async (email) => {
+  const [result] = await User.findAll({
+    where: { email },
   });
+  // console.log(result);
+  return result;  
+};
 
-  return order;
+// const getOrderById = async (id/* , email */) => {
+//   // const { dataValues } = await findUser(email);
+//   // console.log(dataValues.id);
+
+//   const order = await Sale.findOne({
+//     where: { /* sellerId: dataValues.id, */ id },
+//     include: [{
+//       model: SaleProduct,
+//       // required: true, 
+//       as: 'saleId', // alterar no model para salesProducts
+//       include: [{
+//         model: Product,
+//         required: true,
+//         as: 'productId', // alterar no model para product
+//       }],
+//     }],
+//   });
+
+//   return order;
+// };
+
+const getOrderById = async (id) => {
+  const sale = await Sale.findOne({
+    where: { id },
+    include: [
+      { model: User, as: 'seller', attributes: ['name'] },
+      {
+        model: SaleProduct,
+        as: 'sale',
+        attributes: ['quantity'],
+        include: [{
+        model: Product,
+        as: 'product',
+        attributes: { exclude: ['urlImage'] },
+        }],
+      },
+    ],
+  });
+    
+    return sale;
+// const { Sale, SaleProduct, User, sequelize } = require('../database/models');
+
+// const getById = async (id) => {
+  // const sale = await Sale.findByPk(id);
+  // return sale;
 };
 
 const updateStatus = async (id, newStatus) => {
@@ -26,14 +61,6 @@ const updateStatus = async (id, newStatus) => {
     { where: { id } },
   );
   return getOrderById(id);
-};
-
-const findUser = async (email) => {
-  const [result] = await User.findAll({
-    where: { email },
-  });
-  console.log(result);
-  return result;  
 };
 
 const getAllOrdersBySeller = async (email) => {
