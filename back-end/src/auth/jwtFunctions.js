@@ -12,8 +12,8 @@ const jwtConfig = {
   expiresIn: '1d',
 };
 
-const createToken = (email) => {
-  const payload = { email };
+const createToken = (email, role) => {
+  const payload = { email, role };
   const token = jwt.sign(payload, getSecret(), jwtConfig);
   return token;
 };

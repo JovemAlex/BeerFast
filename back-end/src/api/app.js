@@ -5,6 +5,7 @@ const loginRouter = require('../routes/loginRouter');
 const productRouter = require('../routes/productsRouter');
 const customerOrderRouter = require('../routes/customerOrderRouter');
 const sellerOrdersRouter = require('../routes/sellerOrdersRouter');
+const adminRouter = require('../routes/adminRouter');
 
 const errorMiddleware = require('../middlewares/error');
 // const corsOptions = {
@@ -32,6 +33,7 @@ app.use('/customer/products', productRouter);
 app.use('/register', registerRoutes);
 app.use('/customer/orders', customerOrderRouter);
 app.use('/seller/orders', sellerOrdersRouter);
+app.use('/admin/register', adminRouter);
 
 app.use(errorMiddleware);
 

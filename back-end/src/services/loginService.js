@@ -10,7 +10,7 @@ const authenticateToken = async ({ email, password }) => {
   });
 
   if (!user) return { type: 'USER_NOT_FOUND' };
-  const token = createToken(user.dataValues.email);
+  const token = createToken(user.dataValues.email, user.role);
   return { token, role: user.role, name: user.name, email: user.email };
 };
 
