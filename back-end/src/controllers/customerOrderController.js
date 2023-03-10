@@ -23,6 +23,7 @@ const createSale = async (req, res, next) => {
 
 const getSellers = async (_req, res, next) => {
   try {
+    console.log('getSellers controller');
     const allSellers = await customerOrderService.getSellers();
     return res.status(200).json(allSellers);
   } catch (err) {
@@ -50,9 +51,20 @@ const getOrdersByUser = async (req, res, next) => {
   }
 };
 
+const getOrdersById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const order = await customerOrderService.getById(id);
+    return res.status(200).json(order);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = { 
   createSale,
   updateStatusEntregue,
   getSellers,
   getOrdersByUser,
+  getOrdersById,
 };

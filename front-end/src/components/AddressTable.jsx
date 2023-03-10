@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import AppContext from '../contexts/AppContext';
 
-import { getSellers } from '../utils/helpers';
+// import { getSellers } from '../utils/helpers';
 
 const ROUTE = 'customer_checkout';
 const SELLER = 'select-seller';
@@ -22,8 +22,17 @@ function AddressTable() {
 
   useEffect(() => {
     const fetchSellers = async () => {
-      const response = await getSellers();
-      setSellers(response);
+      try {
+        const { token } = JSON.parse(localStorage.getItem('user'));
+        console.log(token);
+        const { data } = await axios.get('http://localhost:3001/customer/orders/sellers', {
+          headers: { Authorization: token },
+        });
+        console.log('da api: ', data);
+        setSellers(data);
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchSellers();
   }, []);
@@ -70,10 +79,7 @@ function AddressTable() {
   return (
     <main>
       <h1>Detalhes e Endereço para Entrega</h1>
-      <p>{ console.log(deliveryAddress)}</p>
-      <p>{ console.log(deliveryNumber)}</p>
-      { console.log(total) }
-      { console.log(selectedProducts) }
+      { console.log('seller: ', sellers) }
       <form>
         <label htmlFor="seller">
           P. Vendedora Responsável

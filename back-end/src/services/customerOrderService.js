@@ -75,6 +75,7 @@ const create = async (sale, products) => {
 };
 
 const getSellers = async () => {
+  console.log('sellers back-end');
   const sellers = await User.findAll(
     {
       where: {

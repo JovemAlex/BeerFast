@@ -4,11 +4,12 @@ import axios from 'axios';
 import OrderDetailsHeader from '../components/OrderDetailsHeader';
 import OrderDetailsSummary from '../components/OrderDetailsSummary';
 import AppContext from '../contexts/AppContext';
+import TotalPrice from '../components/TotalPrice';
 
 export default function OrderDetails() {
-  const { role } = useContext(AppContext);
+  const { role, setTotal } = useContext(AppContext);
   const { id } = useParams();
-  const [order, setOrder] = useState();
+  const [order, setOrder] = useState({});
   const [loading, setLoading] = useState(true);
   const userRole = role || JSON.parse(localStorage.getItem('user')).role;
 
@@ -19,14 +20,16 @@ export default function OrderDetails() {
         const response = await axios.get(`http://localhost:3001/${userRole}/orders/${id}`, {
           headers: { Authorization: token },
         });
+        console.log(response.data);
+        setTotal(response.data.totalPrice);
         setOrder(response.data);
         setLoading(false);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
     fetchData();
-  }, [id, userRole]);
+  }, [id, userRole, setTotal]);
 
   return (
     <main>
@@ -37,8 +40,16 @@ export default function OrderDetails() {
           <section>
             <OrderDetailsHeader order={ order } />
             {order.sale.map((sale, index) => (
-              <OrderDetailsSummary item={ sale } key={ index } number={ index } />
+              <OrderDetailsSummary
+                order={ order }
+                item={ sale }
+                key={ index }
+                number={ index }
+              />
             ))}
+            <TotalPrice
+              dataTestId={ `${userRole}_order_details__element-order-total-price` }
+            />
           </section>
         )
       }

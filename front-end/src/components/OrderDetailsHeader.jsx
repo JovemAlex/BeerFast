@@ -7,6 +7,13 @@ export default function OrderDetailsHeader({ order }) {
   const userRole = role || JSON.parse(localStorage.getItem('user')).role;
   const dataTest = `${userRole}_order_details__element-order-details`;
 
+  const formatDate = (date) => {
+    const newDate = new Date(date);
+    const options = { day: 'numeric', month: 'numeric', year: 'numeric' };
+    const formattedDate = newDate.toLocaleDateString('pt-BR', options);
+    return formattedDate;
+  };
+
   return (
     <section>
       Detalhes do pedido
@@ -23,21 +30,8 @@ export default function OrderDetailsHeader({ order }) {
       <p
         data-testid={ `${dataTest}-label-order-date` }
       >
-        {`${order.saleDate}`}
+        {formatDate(order.saleDate)}
       </p>
-      <p
-        data-testid={
-          `${dataTest}-label-delivery-status`
-        }
-      >
-        {`${order.status}`}
-      </p>
-      <button
-        type="button"
-        data-testid={ `${role}_order_details__button-delivery-check` }
-      >
-        Marcar como entregue
-      </button>
     </section>
   );
 }
@@ -52,37 +46,3 @@ OrderDetailsHeader.propTypes = {
     }).isRequired,
   }).isRequired,
 };
-
-// {
-//   "id": 1,
-//   "userId": 1,
-//   "sellerId": 2,
-//   "totalPrice": "10.00",
-//   "deliveryAddress": "rua do administrator",
-//   "deliveryNumber": "77",
-//   "saleDate": "2023-03-03T00:00:00.000Z",
-//   "status": "pendente",
-//   "user_id": 1,
-//   "seller_id": 2,
-//   "seller": {
-//     "name": "Fulana Pereira"
-//   },
-//   "sale": [
-//     {
-//       "quantity": 2,
-//       "product": {
-//         "id": 3,
-//         "name": "Antarctica Pilsen 300ml",
-//         "price": "2.49"
-//       }
-//     },
-//     {
-//       "quantity": 4,
-//       "product": {
-//         "id": 2,
-//         "name": "Heineken 600ml",
-//         "price": "7.50"
-//       }
-//     }
-//   ]
-// }

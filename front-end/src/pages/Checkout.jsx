@@ -11,7 +11,7 @@ function Checkout() {
       {/* <ProductsTable /> */}
       <h1>Checkout</h1>
       <ProductsTables />
-      <TotalPrice />
+      <TotalPrice dataTestId="customer_checkout__element-order-total-price" />
       <AddressTable />
     </main>
   );

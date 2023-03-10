@@ -18,13 +18,20 @@ export default function OrderCard(props) {
     if (role === 'seller') setShowAddress(true);
   }, [role]);
 
+  const formatDate = (date) => {
+    const newDate = new Date(date);
+    const options = { day: 'numeric', month: 'numeric', year: 'numeric' };
+    const formattedDate = newDate.toLocaleDateString('pt-BR', options);
+    return formattedDate;
+  };
+
   return (
     <button type="button" onClick={ () => redirectToDetails(orderDetails.id) }>
-      <p data-testid={ `${role}_orders__element_order_id` }>
+      <p data-testid={ `${userRole}_orders__element-order-id-${orderDetails.id}` }>
         { `id do pedido: ${orderDetails.id}` }
       </p>
-      <p data-testid={ `${role}_orders__element_card_price` }>
-        { `preço total: ${orderDetails.totalPrice}` }
+      <p data-testid={ `${userRole}_orders__element-card-price-${orderDetails.id}` }>
+        { Number(orderDetails.totalPrice).toFixed(2).replace('.', ',') }
       </p>
       { showAddress
        && (
@@ -34,10 +41,10 @@ export default function OrderCard(props) {
            { `${orderDetails.deliveryAddress}, ${orderDetails.deliveryNumber}` }
          </p>
        )}
-      <p data-testid={ `${role}_orders__element_order_date` }>
-        { `data da venda: ${orderDetails.saleDate}` }
+      <p data-testid={ `${userRole}_orders__element-order-date-${orderDetails.id}` }>
+        { formatDate(orderDetails.saleDate)}
       </p>
-      <p data-testid={ `${role}_orders__element_delivery_status` }>
+      <p data-testid={ `${userRole}_orders__element-delivery-status-${orderDetails.id}` }>
         { `status: ${orderDetails.status}` }
       </p>
     </button>

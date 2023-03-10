@@ -18,7 +18,7 @@ module.exports = {
       total_price: 15,
       delivery_address: 'rua do consumidor',
       delivery_number: '88',
-      sale_date: '2023-02-03',
+      sale_date: '2023-03-03',
       status: 'pendente',
     }], {});
 
