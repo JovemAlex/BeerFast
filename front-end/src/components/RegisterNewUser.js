@@ -8,6 +8,7 @@ export default function RegisterNewUser() {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('seller');
+  const [error, setError] = useState(false);
 
   const history = useHistory();
 
@@ -107,6 +108,14 @@ export default function RegisterNewUser() {
         >
           CADASTRAR
         </button>
+
+        {error && (
+          <span
+            data-testid="admin_manage__element-invalid-register"
+          >
+            User already exists
+          </span>
+        )}
       </div>
     </main>
   );
